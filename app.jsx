@@ -18,7 +18,7 @@ function Todo({ todo, index, complete, delate }) {
     <div class='card'>
       <div>
         <input type='checkbox' onClick={()=>complete(index)}></input>
-        <div style={{ textDecoration: todo.isDone? 'line-through' : '' }}>
+        <div style={{ textDecoration: todo.done? 'line-through' : '' }}>
           <h6>Deadline: {todo.date}</h6>
           <h5>{todo.name}</h5>
         </div>
@@ -37,17 +37,18 @@ function Form({ addTodo }) {
     date: '',
     name: '',
     comment: '',
-    complete: false
+    done: false
   });
 
-  function close() {
+  const close = () => {
     document.getElementById('form').style.display = 'none';
     document.getElementById('addSomething').style.display='';
     setValue({
       id: '',
       date: '',
       name: '',
-      comment: ''
+      comment: '',
+      done: ''
     })
   }
 
@@ -63,14 +64,15 @@ function Form({ addTodo }) {
       id: '',
       date: '',
       name: '',
-      comment: ''
+      comment: '',
+      done: ''
     })
     }
   }
 
   return (
     <div class='card'>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div class='card-body'>
         <InputName inputName='New Todo' />
         <input type='text' placeholder='Add Something to do !' value={value.name} onChange={e => setValue({...value,name: e.target.value})}/>
@@ -86,7 +88,7 @@ function Form({ addTodo }) {
         </div>
         <div class='card-body'>
         <button class='btn btn-danger' type='button' onClick={close}>Cancel</button>
-        <button class='btn btn-primary' type='submit' onclick={handleSubmit}>Save</button>
+        <button class='btn btn-primary' type='submit' onClick={handleSubmit}>Save</button>
         </div>
       </form>
     </div>
@@ -119,10 +121,12 @@ function App () {
       date: '2020/04/12',
       name: "first Todo !!",
       comment: 'hi',
-      complete: false
+      done: false
     }
   ])
+  const [done, setDone] = useState(false)
 
+  
   const addTodo = (value) => {
     const newTodo = [...todos, value]
     setTodos(newTodo);
@@ -130,8 +134,16 @@ function App () {
 
   const complete = (index) => {
     const newTodo = [...todos]
-    newTodo[index].isDone = true
+    if (newTodo[index].done == false) {
+      newTodo[index].done = true
+    } else {
+      newTodo[index].done = false
+    }
     setTodos(newTodo)
+  
+    // setDone( done => !done)
+    // console.log(done) // const newTodo = [...todos, {done: done}] or setTodos ( done => !done)
+    // console.log(todos.done) // undedfined
   }
 
   const delate = (index) => {
