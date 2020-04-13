@@ -128,22 +128,22 @@ function App () {
 
   
   const addTodo = (value) => {
-    const newTodo = [...todos, value]
-    setTodos(newTodo);
+    setTodos([...todos, value]);
   }
 
   const complete = (index) => {
-    const newTodo = [...todos]
-    if (newTodo[index].done == false) {
-      newTodo[index].done = true
-    } else {
-      newTodo[index].done = false
-    }
-    setTodos(newTodo)
-  
     // setDone( done => !done)
-    // console.log(done) // const newTodo = [...todos, {done: done}] or setTodos ( done => !done)
-    // console.log(todos.done) // undedfined
+    // console.log(done) 
+    // const todoIndex = todos[index].done
+    // console.log(todoIndex)
+    // setTodos ( todoIndex => !todoIndex)
+    
+    if (todos[index].done == false) {
+      todos[index].done = true
+    } else {
+      todos[index].done = false
+    }
+    setTodos([...todos])
   }
 
   const delate = (index) => {
