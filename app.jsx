@@ -152,21 +152,20 @@ function App () {
     setTodos(newTodo)
   }
 
-console.log(todos)
-
   return (
     <div>
     <Title title="Todo List" />
     <AddSomething addTodo={addTodo} />
-
-    {todos.map((todo,index) => (
+    <div class='List'>
+        {todos.map((todo,index) => (
         <Todo 
         todo={todo} 
         index={index}
         complete={complete}
         delate={delate}
         />
-    ))}
+        ))}
+    </div>
   </div>
   )
 }
