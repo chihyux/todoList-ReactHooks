@@ -13,19 +13,25 @@ const InputName = (props) => {
 }
 
 //Todo items
-function Todo({ todo, index, complete, delate }) {
+function Todo({ todo, delate }) {
+  const [done, setDone] = useState(false)
+
+  const completeT = () => {
+    setDone(!done)
+  }
+
   return (
     <div class='card'>
       <div>
-        <input type='checkbox' onClick={()=>complete(index)}></input>
-        <div style={{ textDecoration: todo.done? 'line-through' : '' }}>
+        <input type='checkbox' onClick={()=>completeT()}></input>
+        <div style={{ textDecoration: done? 'line-through' : '' }}>
           <h6>Deadline: {todo.date}</h6>
           <h5>{todo.name}</h5>
         </div>
           
       </div>
       <div class='memo'>Memo:<br></br> {todo.comment}</div>
-      <button class='btn btn-danger' onClick={()=>delate(index)}>Delete</button>
+      <button class='btn btn-danger' onClick={()=>delate(todo.id)}>Delate</button>
     </div>
   )
 }
@@ -36,8 +42,7 @@ function Form({ addTodo }) {
     id: '',
     date: '',
     name: '',
-    comment: '',
-    done: false
+    comment: ''
   });
 
   const close = () => {
@@ -121,35 +126,15 @@ function App () {
       date: '2020/04/12',
       name: "first Todo !!",
       comment: 'hi',
-      done: false
     }
   ])
-  const [done, setDone] = useState(false)
 
-  
   const addTodo = (value) => {
     setTodos([...todos, value]);
   }
 
-  const complete = (index) => {
-    // setDone( done => !done)
-    // console.log(done) 
-    // const todoIndex = todos[index].done
-    // console.log(todoIndex)
-    // setTodos ( todoIndex => !todoIndex)
-    
-    if (todos[index].done == false) {
-      todos[index].done = true
-    } else {
-      todos[index].done = false
-    }
-    setTodos([...todos])
-  }
-
-  const delate = (index) => {
-    const newTodo = [...todos]
-    newTodo.splice(index,1)
-    setTodos(newTodo)
+  const delate = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id))
   }
 
   return (
@@ -161,7 +146,6 @@ function App () {
         <Todo 
         todo={todo} 
         index={index}
-        complete={complete}
         delate={delate}
         />
         ))}
